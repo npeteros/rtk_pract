@@ -1,12 +1,23 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchAuthorByPost } from "../../lib/reducers/userReducer";
+import { useDeletePostMutation } from "../../lib/api";
 
 dayjs.extend(relativeTime);
 
 function OpenButton({ id }) {
+
+    const [deletePost, { isLoading }] = useDeletePostMutation();
+
+    async function onDelete() {
+        try {
+            await deletePost(id).unwrap()
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
         <div className="absolute mt-1 bg-white w-48 right-0 rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
             <button
@@ -16,10 +27,10 @@ function OpenButton({ id }) {
             </button>
             <button
                 className="hover:bg-neutral-200 py-2 w-full text-left"
-                onClick={() => {
-                }}
+                disabled={isLoading}
+                onClick={onDelete}
             >
-                <span className="mx-2">Delete</span>
+                <span className="mx-2">{isLoading ? "Deleting..." : "Delete"}</span>
             </button>
         </div>
     )

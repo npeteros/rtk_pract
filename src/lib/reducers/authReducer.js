@@ -3,8 +3,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const authReducer = createSlice({
     name: "auth",
     initialState: {
-        user: null,
-        token: null,
+        user: JSON.parse(localStorage.getItem('user')),
+        token: localStorage.getItem('token'),
         status: 'idle',
         error: null
     },
@@ -12,6 +12,8 @@ export const authReducer = createSlice({
         logoutUser: (state) => {
             state.user = null;
             state.token = null;
+            localStorage.removeItem('user');
+            localStorage.removeItem('token')
         }
     },
     extraReducers: builder => {
@@ -23,6 +25,8 @@ export const authReducer = createSlice({
                 state.status = 'succeeded';
                 state.user = action.payload.user;
                 state.token = action.payload.token;
+                localStorage.setItem('user', JSON.stringify(action.payload.user));
+                localStorage.setItem('token', action.payload.token);
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.status = 'failed';

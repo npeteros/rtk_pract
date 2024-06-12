@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../lib/reducers/authReducer";
+import { useEffect } from "react";
 
 export default function Login() {
     const {
@@ -9,9 +10,14 @@ export default function Login() {
         handleSubmit,
     } = useForm()
 
+    const auth = useSelector(state => state.authReducer.user)
+    const dispatch = useDispatch()
+
     const nav = useNavigate();
 
-    const dispatch = useDispatch()
+    useEffect(() => {
+        if (auth) nav('/')
+    }, [])
 
     async function onSubmit(logData) {
         try {
