@@ -37,7 +37,7 @@ export default function App() {
 
     useEffect(() => {
         if (userStatus == 'idle') {
-            dispatch(getAllUsers())
+            dispatch(getAllUsers())sdsafsafsa
         }
     }, [userStatus, dispatch])
 
