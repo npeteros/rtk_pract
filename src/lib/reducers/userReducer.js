@@ -36,6 +36,5 @@ export const getAllUsers = createAsyncThunk(
 )
 
 export const fetchAuthorByPost = (state, post) => {
-    console.log(post);
     return state.userReducer.users.find(u => u.id == post.userID)
 }

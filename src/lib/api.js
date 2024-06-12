@@ -24,11 +24,18 @@ export const api = createApi({
                 body: post
             }),
             invalidatesTags: ['Post']
+        }),
+        deletePost: build.mutation({
+            query: (postID) => ({
+                url: `/posts/${postID}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Post']
         })
     })
 });
 
 export const {
     useRegisterUserMutation,
-    useGetPostsQuery, useAddPostMutation
+    useGetPostsQuery, useAddPostMutation, useDeletePostMutation
 } = api;
